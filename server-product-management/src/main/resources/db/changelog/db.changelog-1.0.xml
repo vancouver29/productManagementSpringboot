@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd ">
+    <changeSet id="1" author="vancouver">
+        <sql>
+            CREATE TABLE user(
+            id  BIGINT NOT NULL AUTO_INCREMENT,
+            username VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            role VARCHAR(255) NOT NULL,
+            CONSTRAINT PK_id PRIMARY KEY (id)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE user;
+        </rollback>
+    </changeSet>
+    <changeSet id="2" author="vancouver">
+        <sql>
+            CREATE TABLE product (
+            id BIGINT NOT NULL AUTO_INCREMENT,
+            name VARCHAR(255) NOT NULL,
+            price DOUBLE,
+            explanation VARCHAR(1000),
+            CONSTRAIN PK_id PRIMARY KEY (id)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE product;
+        </rollback>
+    </changeSet>
+    <changeSet id="3" author="vancouver">
+        <sql>
+            INSERT INTO product (name, price, explanation) values("Product 1", 19.99, "The Explanation of the product 1");
+            INSERT INTO product (name, price, explanation) values("Product 2", 29.99, "The Explanation of the product 2");
+            INSERT INTO product (name, price, explanation) values("Product 3", 39.99, "The Explanation of the product 3");
+            INSERT INTO product (name, price, explanation) values("Product 4", 49.99, "The Explanation of the product 4");
+            INSERT INTO product (name, price, explanation) values("Product 5", 59.99, "The Explanation of the product 5");
+            INSERT INTO product (name, price, explanation) values("Product 6", 69.99, "The Explanation of the product 6");
+            INSERT INTO product (name, price, explanation) values("Product 7", 79.99, "The Explanation of the product 7");
+            INSERT INTO product (name, price, explanation) values("Product 8", 89.99, "The Explanation of the product 8");
+            INSERT INTO product (name, price, explanation) values("Product 9", 99.99, "The Explanation of the product 9");
+            INSERT INTO product (name, price, explanation) values("Product 10", 119.99, "The Explanation of the product 10");
+            INSERT INTO product (name, price, explanation) values("Product 11", 129.99, "The Explanation of the product 11");
+            INSERT INTO product (name, price, explanation) values("Product 12", 129.99, "The Explanation of the product 12");
+        </sql>
+        <rollback>
+            TRUNCATE TABLE product;
+        </rollback>
+    </changeSet>
+    <changeSet id="4" author="vancouver">
+        <sql>
+            CREATE TABLE transaction(
+                id BIGINT NOT NULL AUTO_INCREMENT,
+            product_id BIGINT NOT NULL,
+            user_id BIGINT NOT NULL,
+            purchase_date DATETIME NOT NULL,
+            CONSTRAIN PK_id PRIMARY KEY (id),
+            CONSTRAIN fk_tran_product FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE ON UPDATE
+            CASCADE,
+            CONSTRAIN fk_tran_user FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE ON UPDATE
+            CASCADE,
+            );
+        </sql>
+        <rollback>
+            DROP TABLE transaction;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
+
+
+
+
