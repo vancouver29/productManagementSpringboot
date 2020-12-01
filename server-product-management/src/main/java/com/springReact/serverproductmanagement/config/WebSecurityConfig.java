@@ -1,5 +1,7 @@
 package com.springReact.serverproductmanagement.config;
 
+import com.springReact.serverproductmanagement.jwt.JWRAuthorizationFilter;
+import com.springReact.serverproductmanagement.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -47,6 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().and()
                 //Cross side request forgery
                 .csrf().disable();
+
+        //jwt filter
+        http.addFilter(new JWRAuthorizationFilter(authenticationManager(), jwtTokenProvider));
     }
 
     @Override
